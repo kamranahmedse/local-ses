@@ -94,7 +94,7 @@ export function EmailList(props: EmailListProps) {
             <button
               onClick={() => {
                 if (
-                  confirm("This will clear the trap history. Are you sure?")
+                  confirm("This will clear all the trap history. Are you sure?")
                 ) {
                   fetch("/emails", {
                     method: "DELETE",
