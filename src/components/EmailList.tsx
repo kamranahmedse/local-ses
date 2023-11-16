@@ -84,7 +84,7 @@ export function EmailList(props: EmailListProps) {
           <div className="flex items-center gap-2">
             <StatBadge
               icon={<Zap size={"13px"} />}
-              label={"Max Send Rate"}
+              label={"Send Rate"}
               value={`${sendingRate.maxRate}/sec`}
             />
             <StatBadge
