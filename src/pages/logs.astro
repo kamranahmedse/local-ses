@@ -1,0 +1,11 @@
+---
+import { Mailbox, ExternalLink, ArrowUpFromDot } from "lucide-react";
+import Layout from "../layouts/Layout.astro";
+import { emails, type EmailType } from "./index";
+import { EmailList } from "../components/EmailList";
+---
+
+<Layout title="Welcome to Astro.">
+  <h1 class="text-4xl mb-4 mt-6 font-bold">SES Email Trap</h1>
+  <EmailList client:load emails={emails} />
+</Layout>
