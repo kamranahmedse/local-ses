@@ -1,7 +1,7 @@
 import type { EmailType } from "../pages";
 import { emails } from "../pages";
 import { EmptyEmails } from "./EmptyEmails.tsx";
-import { Eye, Mail, Search, Trash2, Zap } from "lucide-react";
+import { Eye, Mail, PlusIcon, Search, Trash2, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import { calculateSendingRate } from "../lib/email.ts";
 import { StatBadge } from "./StatBadge.tsx";
@@ -10,10 +10,14 @@ import { EmailListItem } from "./EmailListItem.tsx";
 type EmailListProps = {
   emails: EmailType[];
 };
+
+const MAX_SHOW_COUNT = 10;
+
 export function EmailList(props: EmailListProps) {
   const { emails: defaultEmails } = props;
   const [emails, setEmails] = useState(defaultEmails);
   const [search, setSearch] = useState("");
+  const [showCount, setShowCount] = useState(MAX_SHOW_COUNT);
 
   async function refreshEmails() {
     const response = await fetch("/emails");
@@ -100,6 +104,7 @@ export function EmailList(props: EmailListProps) {
                   fetch("/emails", {
                     method: "DELETE",
                   }).then(() => {
+                    setShowCount(MAX_SHOW_COUNT);
                     setEmails([]);
                   });
                 }
@@ -115,9 +120,17 @@ export function EmailList(props: EmailListProps) {
 
       <div className="flex flex-col gap-2 mt-3">
         {matchedEmails.length === 0 && <EmptyEmails />}
-        {matchedEmails.map((email: EmailType, counter) => (
+        {matchedEmails.slice(0, showCount).map((email: EmailType, counter) => (
           <EmailListItem email={email} key={counter} />
         ))}
+        {matchedEmails.length > showCount && (
+          <button
+            onClick={() => setShowCount(showCount + MAX_SHOW_COUNT)}
+            className="bg-gray-700 w-full p-2 rounded-md text-white font-medium hover:bg-gray-900"
+          >
+            + Show More
+          </button>
+        )}
       </div>
     </>
   );
