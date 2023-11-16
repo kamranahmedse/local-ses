@@ -2,7 +2,7 @@ import { ExternalLink, Mailbox } from "lucide-react";
 
 export function EmptyEmails() {
   return (
-    <div className="flex items-center  justify-center flex-col py-[50px] border rounded-md bg-white">
+    <div className="mt-2 flex items-center  justify-center flex-col py-[50px] border rounded-md bg-white">
       <Mailbox size={64} className="text-gray-300" />
       <p className="mb-3 text-xl font-semibold">No emails found</p>
       <a

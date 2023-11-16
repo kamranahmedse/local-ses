@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { calculateSendingRate } from "../lib/email.ts";
 import { StatBadge } from "./StatBadge.tsx";
 import { EmailListItem } from "./EmailListItem.tsx";
+import { EmailPreview } from "./EmailPreview.tsx";
 
 type EmailListProps = {
   emails: EmailType[];
@@ -15,6 +16,8 @@ const MAX_SHOW_COUNT = 10;
 
 export function EmailList(props: EmailListProps) {
   const { emails: defaultEmails } = props;
+
+  const [currentPreview, setCurrentPreview] = useState<EmailType | null>(null);
   const [emails, setEmails] = useState(defaultEmails);
   const [search, setSearch] = useState("");
   const [showCount, setShowCount] = useState(MAX_SHOW_COUNT);
@@ -77,7 +80,7 @@ export function EmailList(props: EmailListProps) {
       </div>
 
       {matchedEmails.length > 0 && (
-        <div className="flex justify-between items-center mt-2">
+        <div className="flex justify-between items-center my-3">
           <div className="flex items-center gap-2">
             <StatBadge
               icon={<Zap size={"13px"} />}
@@ -118,10 +121,25 @@ export function EmailList(props: EmailListProps) {
         </div>
       )}
 
-      <div className="flex flex-col gap-2 mt-3">
+      <div className="flex flex-col gap-2">
+        {currentPreview && (
+          <EmailPreview
+            onClose={() => {
+              setCurrentPreview(null);
+            }}
+            html={currentPreview.html}
+          />
+        )}
+
         {matchedEmails.length === 0 && <EmptyEmails />}
         {matchedEmails.slice(0, showCount).map((email: EmailType, counter) => (
-          <EmailListItem email={email} key={counter} />
+          <EmailListItem
+            email={email}
+            key={counter}
+            onPreview={(email) => {
+              setCurrentPreview(email);
+            }}
+          />
         ))}
         {matchedEmails.length > showCount && (
           <button
