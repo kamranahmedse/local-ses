@@ -1,8 +1,8 @@
-# ses-local
+# local-ses
 
 > Trap and test AWS SES emails locally
 
-![ses-local](./.github/email-list.png)
+![local-ses](./.github/email-list.png)
 
 ## Setup
 
