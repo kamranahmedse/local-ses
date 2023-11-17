@@ -5,12 +5,14 @@
   "scripts": {
     "dev": "astro dev --port 8282",
     "start": "astro dev --port 8282",
-    "build": "astro check && astro build",
+    "build": "NODE_ENV=production astro build --host 0.0.0.0 --port 8282",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "prod": "node dist/server/entry.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.3.1",
+    "@astrojs/node": "^6.0.4",
     "@astrojs/react": "^3.0.5",
     "@astrojs/tailwind": "^5.0.2",
     "@types/react": "^18.0.21",
