@@ -1,12 +1,12 @@
 import type { EmailType } from "../pages";
-import { emails } from "../pages";
 import { EmptyEmails } from "./EmptyEmails.tsx";
-import { Eye, Mail, PlusIcon, Search, Trash2, Zap } from "lucide-react";
+import { Mail, Search, Settings, Trash2, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import { calculateSendingRate } from "../lib/email.ts";
 import { StatBadge } from "./StatBadge.tsx";
 import { EmailListItem } from "./EmailListItem.tsx";
 import { EmailPreview } from "./EmailPreview.tsx";
+import { Setup } from "./Setup.tsx";
 
 type EmailListProps = {
   emails: EmailType[];
@@ -21,6 +21,7 @@ export function EmailList(props: EmailListProps) {
   const [emails, setEmails] = useState(defaultEmails);
   const [search, setSearch] = useState("");
   const [showCount, setShowCount] = useState(MAX_SHOW_COUNT);
+  const [isSettingUp, setIsSettingUp] = useState(false);
 
   async function refreshEmails() {
     const response = await fetch("/emails");
@@ -101,6 +102,15 @@ export function EmailList(props: EmailListProps) {
             )}
             <button
               onClick={() => {
+                setIsSettingUp(true);
+              }}
+              className="flex border border-black bg-red-50 items-center gap-1 font-normal text-xs py-1 px-2 rounded-full text-black hover:bg-black hover:border-black hover:text-white"
+            >
+              <Settings size={"13px"} />
+              Setup
+            </button>
+            <button
+              onClick={() => {
                 if (
                   confirm("This will clear all the trap history. Are you sure?")
                 ) {
@@ -122,6 +132,13 @@ export function EmailList(props: EmailListProps) {
       )}
 
       <div className="flex flex-col gap-2">
+        {isSettingUp && (
+          <Setup
+            onClose={() => {
+              setIsSettingUp(false);
+            }}
+          />
+        )}
         {currentPreview && (
           <EmailPreview
             onClose={() => {
