@@ -38,7 +38,7 @@ export function EmailListItem(props: EmailListItemProps) {
   }, []);
 
   async function handleAction(action: string) {
-    const response = await fetch("/hooks", {
+    await fetch("/hooks", {
       method: "POST",
       body: JSON.stringify({
         id: email.id,
@@ -49,6 +49,8 @@ export function EmailListItem(props: EmailListItemProps) {
         "Content-Type": "application/json",
       },
     });
+
+    setIsOptionsOpen(false);
   }
 
   const actions = [
@@ -58,6 +60,17 @@ export function EmailListItem(props: EmailListItemProps) {
     "delivery",
     "click",
   ];
+
+  let statusStyles = "";
+  if (email.status === "complaint") {
+    statusStyles = "border-red-500 text-red-900";
+  } else if (["soft_bounce", "hard_bounce"].includes(email.status)) {
+    statusStyles = "border-yellow-500 text-yellow-900";
+  } else if (email.status === "delivery") {
+    statusStyles = "border-green-500 text-green-500";
+  } else if (email.status === "click") {
+    statusStyles = "border-blue-500 text-blue-900";
+  }
 
   return (
     <div className="border rounded-md relative bg-white">
@@ -73,6 +86,11 @@ export function EmailListItem(props: EmailListItemProps) {
             To
           </span>
           {email.to}
+          <span
+            className={`px-1 border rounded-md text-sm ml-2 ${statusStyles}`}
+          >
+            {email.status}
+          </span>
         </div>
       </div>
       <div className="px-4 py-2 text-black font-semibold">
