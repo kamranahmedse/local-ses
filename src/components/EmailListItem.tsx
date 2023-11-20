@@ -11,7 +11,7 @@ export function EmailListItem(props: EmailListItemProps) {
   return (
     <div className="border rounded-md overflow-hidden relative bg-white">
       <div className="px-4 border-b py-2 flex flex-col gap-0.5">
-        <div className="flex items-center">
+        <div className="flex items-center pr-36">
           <span className="uppercase text-xs mr-2 text-gray-400 block w-[70px] relative top-[0.5px]">
             From
           </span>
