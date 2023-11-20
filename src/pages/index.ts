@@ -10,6 +10,7 @@ export type EmailType = {
 };
 
 export const emails: EmailType[] = [];
+export const emailsByRecipient: Record<string, EmailType[]> = {};
 
 export const GET: APIRoute = async ({ request }) => {
   return Response.redirect(`${request.url}logs`);
@@ -30,7 +31,10 @@ export const POST: APIRoute = async ({ params, request }) => {
   const text = data.get("Message.Body.Text.Data") || "";
   const html = data.get("Message.Body.Html.Data") || "";
 
-  emails.push({ from, to, subject, text, html, date: new Date() });
+  const now = new Date();
+  emails.push({ from, to, subject, text, html, date: now });
+  emailsByRecipient[to] = emailsByRecipient[to] || []
+  emailsByRecipient[to].push({ from, to, subject, text, html, date: now })
 
   const sendEmailResponse = `
     <SendEmailResponse xmlns="https://ses.amazonaws.com/doc/2010-12-01/">
