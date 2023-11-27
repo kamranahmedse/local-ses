@@ -39,8 +39,6 @@ async function handleSendEmail(data: Record<string, any>) {
     status: 'delivery'
   });
 
-  console.log(emails);
-
   const sendEmailResponse = `
     <SendEmailResponse xmlns="https://ses.amazonaws.com/doc/2010-12-01/">
         <SendEmailResult>
@@ -65,7 +63,7 @@ async function handleGetQuota() {
       <GetSendQuotaResult>
         <SentLast24Hours>0</SentLast24Hours>
         <Max24HourSend>50000.0</Max24HourSend>
-        <MaxSendRate>20.0</MaxSendRate>
+        <MaxSendRate>200.0</MaxSendRate>
       </GetSendQuotaResult>
       <ResponseMetadata>
         <RequestId>${new Date().getTime()}</RequestId>
